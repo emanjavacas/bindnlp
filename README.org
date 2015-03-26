@@ -1,0 +1,16 @@
+* nlp-tools
+
+This repo consist of a bunch of Clojure wrappers around Java libraries that I've found useful while NLPing
+
+** Usage
+
+Each wrapper has its own functionality and the use should be more or less evident from the code.
+Only the models should be downloaded and put in a place in agreement with what the code expects.
+
+** License
+
+Copyright © 2015 Enrique Manjavacas
+
+Distributed under the Eclipse Public License either version 1.0 or (at
+your option) any later version.
+
