@@ -7,26 +7,25 @@
             ))
 
 ;; "https://code.google.com/p/mate-tools/"
-
 (defn create-lemmatizer [model-fn]
-  (let [lemmatizer (Lemmatizer. model-fn)
-        sent-holder (SentenceData09.)]
+  (let [lemmatizer (Lemmatizer. model-fn)]
     (fn [tokens]
-      (do (.init sent-holder (into-array String (cons "<root>" tokens)))
-          (.apply lemmatizer sent-holder))
-      (map (fn [l t] {:lemma l :token t})
-           (rest (for [i (.plemmas sent-holder)] i))
-           tokens))))
+      (let [sent-holder (SentenceData09.)]
+        (do (.init sent-holder (into-array String (cons "<root>" tokens)))
+            (.apply lemmatizer sent-holder))
+        (map (fn [l t] {:lemma l :token t})
+             (rest (for [i (.plemmas sent-holder)] i))
+             tokens)))))
 
 (defn create-tagger [model-fn]
-  (let [tagger (Tagger. model-fn)
-        sent-holder (SentenceData09.)]
+  (let [tagger (Tagger. model-fn)]
     (fn [tokens]
-      (do (.init sent-holder (into-array String (cons "<root>" tokens)))
-          (.apply tagger sent-holder))
-      (map (fn [p t] {:pos p :token t})
-           (rest (for [i (.ppos sent-holder)] i))
-           tokens))))
+      (let [sent-holder (SentenceData09.)]
+        (do (.init sent-holder (into-array String (cons "<root>" tokens)))
+            (.apply tagger sent-holder))
+        (map (fn [p t] {:pos p :token t})
+             (rest (for [i (.ppos sent-holder)] i))
+             tokens)))))
 
 ;; (defn create-mtagger [model-fn]
 ;;   (let [mtagger (is2.mtag.Tagger model-fn)

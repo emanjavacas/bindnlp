@@ -5,7 +5,7 @@
 (def ^{:private true} home "/usr/local/share/treetagger/")
 (def ^{:private true} models "/usr/local/share/treetagger/lib/")
 
-(defn- init-tt4j [home model]
+(defn init-tt4j [home model]
   (System/setProperty "treetagger.home" home)
   (let [tagger (TreeTaggerWrapper.)]
     (doto tagger
