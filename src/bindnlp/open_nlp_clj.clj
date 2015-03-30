@@ -5,6 +5,13 @@
 (def ^{:private true} utf-regex-de '(#"(\s\p{Pi}|\p{Ps}|\p{Pf}\s|\p{Pe}\s|\"|'\s|\s')" " $1 "))
 (def ^{:private true} utf-regex-nl '(#"(\s\p{Pi}|\p{Pf}\s|\"|'\s|\s')" " $1 "))
 
+(defn make-pos-tagger
+  [model]
+  (let [tagger (nlp/make-pos-tagger model)]
+    (fn [tokens]
+      (map (fn [[w p]]
+             {:token w :pos p}) (tagger tokens)))))
+
 ;;; -----------
 ;;; GERMAN
 ;;; -----------
@@ -19,7 +26,7 @@
      (apply clojure.string/replace (apply vector s utf-regex-de)))))
 
 ;;; POS
-(def pos-tagger-de (nlp/make-pos-tagger "resources/de-pos-maxent.bin"))
+(def pos-tagger-de (make-pos-tagger "resources/de-pos-maxent.bin"))
 
 ;;; -----------
 ;;; NL
@@ -35,7 +42,7 @@
      (apply clojure.string/replace (apply vector s utf-regex-nl)))))
 
 ;;; POS
-(def pos-tagger-nl (nlp/make-pos-tagger "resources/nl-pos-maxent.bin"))
+(def pos-tagger-nl (make-pos-tagger "resources/nl-pos-maxent.bin"))
 
 ;;; -----------
 ;;; Detokenizer (language agnostic?)
